@@ -7,9 +7,6 @@
   cursor: pointer;
 }
 
-html * {
-    font-family: 'Poppins', sans-serif !important;
-}
 
 #navTitle {
     font-size: 32px;
@@ -172,4 +169,8 @@ html{
 .landing-form {
   margin: 2em 1em 2em 1em;
   
+}
+
+.hidden {
+  visibility: "hidden";
 }

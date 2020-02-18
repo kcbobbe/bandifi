@@ -10,15 +10,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="./script.js"></script>
-    <script src="assets/moment.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   </head>
 
   <body>
 
     <!-- landing page view -->
-    <div id="landingPage">
+    <div id="landingPage" class="hidden">
     <section class="wrapper">
       <div class="panel">
         <h1 class="main-page-title">
@@ -89,7 +88,7 @@
     <!-- loader -->
     <progress id="progressBar" class="progress is-large is-dark" style="border-radius:0; display:none"></progress>
 
-  <div id="contentContainer" style="display:none">
+  <div id="contentContainer">
     <!-- container div wraps main content, excluding nav and footer -->
     <div class="container" style="margin-top:2em">
       <!-- columns div wraps both columns -->
