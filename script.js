@@ -1,5 +1,8 @@
 $(document).ready(function() {
 
+  var tasteDiveLoaded = false;
+  var itunesLoaded = false;
+  var bandsintownLoaded = false;
   // local storage setup -- for saved events panel
   if(!localStorage.getItem("favoriteEvents")){
     var favoriteEvents = [];
@@ -12,12 +15,12 @@ $(document).ready(function() {
   var tasteDiveApiKey = "355215-KatieBob-H8EY3UTU"
   
   function getRelated(artistName){
-    $("#relatedArtists").text("");
     $.ajax({
       dataType: "jsonp",
       url: "https://tastedive.com/api/similar?q=" + artistName + "&k=" + tasteDiveApiKey + "&type=music" + "&limit=5",
       method:"GET"
     }).then(function(response){
+      $("#relatedArtists").text("");
       for (var i=0; i < response.Similar.Results.length; i++) {
         var relatedArtist = $("<button>");
         relatedArtist.attr("class","button");
@@ -26,6 +29,12 @@ $(document).ready(function() {
         $("#relatedArtists").append(relatedArtist);
       }
     })
+    tasteDiveLoaded = true;
+    console.log(tasteDiveLoaded, "taste dive loaded")
+    if (tasteDiveLoaded && itunesLoaded && bandsintownLoaded){
+      $("#progressBar").attr("style", "display:none");
+      $("#contentContainer").css("display","");
+    }
   }
   
   
@@ -43,11 +52,11 @@ $(document).ready(function() {
 
     var parsedResponse = "";
     function getItunes(artistName){
-      $("#songContainer").text("");
       $.ajax({
         url: "https://cors-anywhere.herokuapp.com/https://itunes.apple.com/search?term=$" + artistName +"&media=music" + "&limit=5",
         method:"GET"
       }).then(function(response){
+        $("#songContainer").text("");
         parsedResponse = JSON.parse(response);
         $("#artistName").text("Listen to " + parsedResponse.results[0].artistName)
         for (var i = 0; i < parsedResponse.results.length; i++){
@@ -63,7 +72,6 @@ $(document).ready(function() {
           $("#songContainer").append(newSongContainer)
         }
         getNowPlaying(0)
-    
       })
     }
   // creates top section of the itunes panel with audio, song name, album name, and album art
@@ -73,6 +81,12 @@ $(document).ready(function() {
         $("#songName").text(parsedResponse.results[index].trackName);
         $("#albumName").text(parsedResponse.results[index].collectionName);
         $("#songImg").attr("src", parsedResponse.results[index].artworkUrl100);
+        itunesLoaded = true;
+        console.log(itunesLoaded, "itunes loaded")
+        if (tasteDiveLoaded && itunesLoaded && bandsintownLoaded){
+          $("#progressBar").attr("style", "display:none");
+          $("#contentContainer").css("display","");
+        }
     }
   
     $("#songContainer").on('click', function(e){
@@ -142,6 +156,12 @@ $(document).ready(function() {
               eventInfo.artist = response[0].artist.name;
               eventInfo.date = response[0].datetime;
               eventInfo.location = response[0].venue.name
+              bandsintownLoaded = true;
+              console.log(bandsintownLoaded, "bandsintownloaded")
+              if (tasteDiveLoaded && itunesLoaded && bandsintownLoaded){
+                $("#progressBar").attr("style", "display:none");
+                $("#contentContainer").css("display","");
+              }
             };        
           })
         }
@@ -150,11 +170,16 @@ $(document).ready(function() {
     //search on landing page
     $("#landingPageForm").on('submit', function(e){
       e.preventDefault();
+      tasteDiveLoaded = false;
+      itunesLoaded = false;
+      bandsintownLoaded = false;
       var artistSearch2 = $("#landingSearchField").val();
       if (artistSearch2 !=""){
         $("#landingSearchField").val("");
         $("#landingPage").css("display","none");
         $("#mainPage").css("display","");
+        $("#progressBar").css("display","")
+        // $("#mainPage").css("display","");
         getEventData(artistSearch2)
         getItunes(artistSearch2);
         getRelated(artistSearch2);
@@ -164,8 +189,14 @@ $(document).ready(function() {
     //submit search
     $("#search-form").on('submit',function(e){
       e.preventDefault();
+      tasteDiveLoaded = false;
+      itunesLoaded = false;
+      bandsintownLoaded = false;
       var artistSearch = $("#searchField").val();
       if (artistSearch !=""){
+        $("#contentContainer").css("display","none")
+        $("#mainPage").css("display","");
+        $("#progressBar").css("display","")
         getEventData(artistSearch);
         getItunes(artistSearch);
         getRelated(artistSearch);
@@ -237,6 +268,9 @@ $(document).ready(function() {
 // when the BandiFi title is clicked in the nav bar, brings back to landing page
     $("#backToLanding").on('click', function(e){
       e.preventDefault();
+      tasteDiveLoaded = false;
+      itunesLoaded = false;
+      bandsintownLoaded = false;
       $("#landingPage").css("display","");
       $("#mainPage").css("display","none");
     })
