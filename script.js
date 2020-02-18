@@ -2,7 +2,8 @@ $(document).ready(function() {
 
   var tasteDiveLoaded = false;
   var itunesLoaded = false;
-  var bandsintownLoaded = false;
+  var bandsintownEventsLoaded = false;
+  var bandsintownArtistsLoaded = false;
   // local storage setup -- for saved events panel
   if(!localStorage.getItem("favoriteEvents")){
     var favoriteEvents = [];
@@ -21,17 +22,22 @@ $(document).ready(function() {
       method:"GET"
     }).then(function(response){
       $("#relatedArtists").text("");
-      for (var i=0; i < response.Similar.Results.length; i++) {
-        var relatedArtist = $("<button>");
-        relatedArtist.attr("class","button");
-        relatedArtist.attr("id", response.Similar.Results[i].Name);
-        relatedArtist.text(response.Similar.Results[i].Name);
-        $("#relatedArtists").append(relatedArtist);
+      if (response.Similar.Results.length === 0){
+        $("#recommendedContainer").css("display","none")
+      } else {
+        $("#recommendedContainer").css("display","")
+        for (var i=0; i < response.Similar.Results.length; i++) {
+          var relatedArtist = $("<button>");
+          relatedArtist.attr("class","button");
+          relatedArtist.attr("id", response.Similar.Results[i].Name);
+          relatedArtist.text(response.Similar.Results[i].Name);
+          $("#relatedArtists").append(relatedArtist);
+        }
       }
     })
     tasteDiveLoaded = true;
     console.log(tasteDiveLoaded, "taste dive loaded")
-    if (tasteDiveLoaded && itunesLoaded && bandsintownLoaded){
+    if (tasteDiveLoaded && itunesLoaded && bandsintownEventsLoaded && bandsintownArtistsLoaded){
       $("#progressBar").attr("style", "display:none");
       $("#contentContainer").css("display","");
     }
@@ -41,6 +47,11 @@ $(document).ready(function() {
   $("#relatedArtists").on('click', function(e){
     if (e.target.matches('button')){
       e.preventDefault();
+      $("#contentContainer").css("display","hidden");
+      tasteDiveLoaded = false;
+      itunesLoaded = false;
+      bandsintownArtistsLoaded = false;
+      bandsintownEventsLoaded = false;
       var artist = (e.target.id);
       getItunes(artist);
       getEventData(artist);
@@ -83,7 +94,7 @@ $(document).ready(function() {
         $("#songImg").attr("src", parsedResponse.results[index].artworkUrl100);
         itunesLoaded = true;
         console.log(itunesLoaded, "itunes loaded")
-        if (tasteDiveLoaded && itunesLoaded && bandsintownLoaded){
+        if (tasteDiveLoaded && itunesLoaded && bandsintownArtistsLoaded && bandsintownEventsLoaded){
           $("#progressBar").attr("style", "display:none");
           $("#contentContainer").css("display","");
         }
@@ -119,19 +130,29 @@ $(document).ready(function() {
             hasEvent = response[0];
             if(!hasEvent) {
               getArtistData(artistName);
+              $("#eventContainer").css("display","none");
               $("#eventVenue").text("No upcoming events");
-              $("#eventCity").text("Stay tuned for future events!");
-              $("#buyTickets").text("No tickets available");
+              $("#eventCity").text("No events scheduled");
+              $("#buyTickets").css("display","none");
               $("#eventDate").text("");
               $("#lineup").text("");
               $("#saleDate").text("");
               $("#facebook").attr("href", "https://facebook.com");
               $("#addToEvents").css("display","none");
+              bandsintownEventsLoaded = true;
+              bandsintownArtistsLoaded = true;
+              console.log(bandsintownEventsLoaded, "bandsintownEventsLoaded");
+              if (tasteDiveLoaded && itunesLoaded && bandsintownArtistsLoaded && bandsintownEventsLoaded){
+                $("#progressBar").attr("style", "display:none");
+                $("#contentContainer").css("display","");
+              }
             } else {
+              $("#eventContainer").css("display","");
               $("#bandName").text(response[0].artist.name);
               $("#bandImg").attr("src", response[0].artist.image_url);
               var eventDate = moment(response[0].datetime).format("MM/DD/YYYY");
               $("#eventDate").text(eventDate);
+              $("#buyTickets").css("display","");
               $("#buyTickets").attr("href", response[0].offers[0].url)
               $("#eventCity").text("Next event in: " + response[0].venue.city);
               $("#eventVenue").text("@ " + response[0].venue.name);
@@ -149,16 +170,19 @@ $(document).ready(function() {
               if(hasLineup) {
                 $("#lineup").text("Supporting artist: " + response[0].lineup[1]);
               } else {
-                $("#lineup").text("Supporting artist: N/A");
+                $("#lineup").css("display" , "none");
               }
               
               $("#addToEvents").css("display","");
               eventInfo.artist = response[0].artist.name;
               eventInfo.date = response[0].datetime;
               eventInfo.location = response[0].venue.name
-              bandsintownLoaded = true;
-              console.log(bandsintownLoaded, "bandsintownloaded")
-              if (tasteDiveLoaded && itunesLoaded && bandsintownLoaded){
+              bandsintownEventsLoaded = true;
+              bandsintownArtistsLoaded = true;
+              console.log(bandsintownEventsLoaded, "bandsintownEventsLoaded")
+              console.log(bandsintownArtistsLoaded, "bandsintownArtistsLoaded")
+
+              if (tasteDiveLoaded && itunesLoaded && bandsintownArtistsLoaded && bandsintownEventsLoaded){
                 $("#progressBar").attr("style", "display:none");
                 $("#contentContainer").css("display","");
               }
@@ -170,16 +194,18 @@ $(document).ready(function() {
     //search on landing page
     $("#landingPageForm").on('submit', function(e){
       e.preventDefault();
+      $("#contentContainer").css("display","hidden");
       tasteDiveLoaded = false;
       itunesLoaded = false;
-      bandsintownLoaded = false;
+      bandsintownEventsLoaded = false;
+      bandsintownArtistsLoaded = false;
+      $("#mainPage").css("display","");
       var artistSearch2 = $("#landingSearchField").val();
       if (artistSearch2 !=""){
         $("#landingSearchField").val("");
         $("#landingPage").css("display","none");
         $("#mainPage").css("display","");
         $("#progressBar").css("display","")
-        // $("#mainPage").css("display","");
         getEventData(artistSearch2)
         getItunes(artistSearch2);
         getRelated(artistSearch2);
@@ -189,13 +215,14 @@ $(document).ready(function() {
     //submit search
     $("#search-form").on('submit',function(e){
       e.preventDefault();
+      $("#contentContainer").css("display","hidden");
       tasteDiveLoaded = false;
       itunesLoaded = false;
-      bandsintownLoaded = false;
+      bandsintownArtistsLoaded = false;
+      bandsintownEventsLoaded = false;
       var artistSearch = $("#searchField").val();
       if (artistSearch !=""){
-        $("#contentContainer").css("display","none")
-        $("#mainPage").css("display","");
+        // $("#mainPage").css("display","");
         $("#progressBar").css("display","")
         getEventData(artistSearch);
         getItunes(artistSearch);
@@ -270,13 +297,9 @@ $(document).ready(function() {
       e.preventDefault();
       tasteDiveLoaded = false;
       itunesLoaded = false;
-      bandsintownLoaded = false;
+      bandsintownArtistsLoaded = false;
+      bandsintownEventsLoaded = false;
       $("#landingPage").css("display","");
       $("#mainPage").css("display","none");
     })
-    
-
-//page animations
-    $(".panel").slideDown(1500);
-    // $(".columns").fadeIn();
   })

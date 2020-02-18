@@ -121,10 +121,14 @@ audio{
   padding-bottom: 7px;
 }
 
-body{
+/* body{
   padding: 0;
   background-image: url("../imgs/backgroundHQ.jpg");
   background-size: cover;
+} */
+
+html{
+  background-color: rgb(110, 137, 168)!important;
 }
 
 
