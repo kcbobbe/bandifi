@@ -13,6 +13,7 @@
 }
 
 .navbar {
+  /* https://cssgradient.io/gradient-backgrounds/ */
   background-image: linear-gradient(to left, #434343 0%, black 100%)!important;
 }
 
@@ -125,7 +126,7 @@ audio{
 } */
 
 html{
-  /* background-color: rgb(110, 137, 168)!important; */
+  /* https://cssgradient.io/gradient-backgrounds/ */
   background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
 }
 
