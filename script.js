@@ -39,7 +39,7 @@ $(document).ready(function() {
     console.log(tasteDiveLoaded, "taste dive loaded")
     if (tasteDiveLoaded && itunesLoaded && bandsintownEventsLoaded && bandsintownArtistsLoaded){
       $("#progressBar").attr("style", "display:none");
-      $("#contentContainer").css("visibility","");
+      // $("#contentContainer").css("visibility","");
     }
   }
   
@@ -48,7 +48,7 @@ $(document).ready(function() {
     if (e.target.matches('button')){
       e.preventDefault();
 
-      $("#contentContainer").css("visibility","hidden");
+      // $("#contentContainer").css("visibility","hidden");
       tasteDiveLoaded = false;
       itunesLoaded = false;
       bandsintownArtistsLoaded = false;
@@ -97,7 +97,7 @@ $(document).ready(function() {
         console.log(itunesLoaded, "itunes loaded")
         if (tasteDiveLoaded && itunesLoaded && bandsintownArtistsLoaded && bandsintownEventsLoaded){
           $("#progressBar").attr("style", "display:none");
-          $("#contentContainer").css("visibility","");
+          // $("#contentContainer").css("visibility","");
         }
     }
   
@@ -145,7 +145,7 @@ $(document).ready(function() {
               console.log(bandsintownEventsLoaded, "bandsintownEventsLoaded");
               if (tasteDiveLoaded && itunesLoaded && bandsintownArtistsLoaded && bandsintownEventsLoaded){
                 $("#progressBar").attr("style", "display:none");
-                $("#contentContainer").css("visibility","");
+                // $("#contentContainer").css("visibility","");
               }
             } else {
               $("#eventContainer").css("display","");
@@ -185,7 +185,7 @@ $(document).ready(function() {
 
               if (tasteDiveLoaded && itunesLoaded && bandsintownArtistsLoaded && bandsintownEventsLoaded){
                 $("#progressBar").attr("style", "display:none");
-                $("#contentContainer").css("visibility","");
+                // $("#contentContainer").css("visibility","");
               }
             };        
           })
@@ -195,7 +195,7 @@ $(document).ready(function() {
     //search on landing page
     $("#landingPageForm").on('submit', function(e){
       e.preventDefault();
-      $("#contentContainer").css("visibility","hidden");
+      // $("#contentContainer").css("visibility","hidden");
       tasteDiveLoaded = false;
       itunesLoaded = false;
       bandsintownEventsLoaded = false;
@@ -216,7 +216,7 @@ $(document).ready(function() {
     //submit search
     $("#search-form").on('submit',function(e){
       e.preventDefault();
-      $("#contentContainer").css("visibility","hidden");
+      // $("#contentContainer").css("visibility","hidden");
       tasteDiveLoaded = false;
       itunesLoaded = false;
       bandsintownArtistsLoaded = false;
@@ -304,6 +304,5 @@ $(document).ready(function() {
       $("#mainPage").css("display","none");
     })
 
-    $("#landingPage").fadeIn(1000).removeClass("hidden");
 
   })
