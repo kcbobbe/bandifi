@@ -7,16 +7,13 @@
   cursor: pointer;
 }
 
-html * {
-    font-family: 'Poppins', sans-serif !important;
-}
 
 #navTitle {
     font-size: 32px;
 }
 
 .navbar {
-    background-color: black !important;
+  background-image: linear-gradient(to left, #434343 0%, black 100%)!important;
 }
 
 .itunes-card {
@@ -128,7 +125,8 @@ audio{
 } */
 
 html{
-  background-color: rgb(110, 137, 168)!important;
+  /* background-color: rgb(110, 137, 168)!important; */
+  background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
 }
 
 
@@ -157,7 +155,7 @@ html{
   max-width: 700px;
   border-radius: 2px solid;
   padding: 10px;
-  background: rgb(255,255,255)!important;
+  /* background: rgba(255,255,255,.8)!important; */
   background: linear-gradient(180deg, rgba(255,255,255,.8) 30%, rgba(255,255,255,.3) 80%)!important;
 }
 
@@ -173,3 +171,8 @@ html{
   margin: 2em 1em 2em 1em;
   
 }
+
+.hidden {
+  visibility: "hidden";
+}
+
