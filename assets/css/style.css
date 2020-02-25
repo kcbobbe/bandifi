@@ -14,7 +14,8 @@
 
 .navbar {
   /* https://cssgradient.io/gradient-backgrounds/ */
-  background-image: linear-gradient(to left, #434343 0%, black 100%)!important;
+  background-color: #323232!important;
+  /* background-image: linear-gradient(to bottom, #434343 0%, black 100%)!important; */
 }
 
 .itunes-card {
@@ -79,7 +80,7 @@
 }
 
 audio{
-  opacity:70%;
+  opacity:100%;
 }
 
 .table-container{
@@ -119,24 +120,43 @@ audio{
   padding-bottom: 7px;
 }
 
+.contentContainerNoFooter{
+  min-height: 100vh; 
+ overflow: hidden;
+ display: block;
+ position: relative;
+ padding-bottom: 1.5em; 
+}
+
 /* body{
   padding: 0;
   background-image: url("../imgs/backgroundHQ.jpg");
   background-size: cover;
 } */
+body{
+  height: 100%;
+  position: relative;
+}
 
 html{
   /* https://cssgradient.io/gradient-backgrounds/ */
-  background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+  /* https://cssgradient.io/gradient-backgrounds/ mesh gradients */
+  /* background-image: linear-gradient(to bottom, #accbff 0%, #e7f0fd 100%); */
+  height: 100%;
+  position: relative;
+  background-image: url("https://assets.website-files.com/5bfd1275cc56e15ce750b18e/5c289afb9a157506f8893ae1_99.%20Roman.jpg")
 }
 
 
 .footer-container{
-  position: fixed;
+  /* position: fixed; */
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   border-top: 1px solid grey;
   text-align: center;
   bottom: 0;
-  height: 60px;
+  height: 30px;
   width: 100%;
   padding-bottom: 20px 0; 
   
