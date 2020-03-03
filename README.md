@@ -1,5 +1,5 @@
 # BandiFi
-https://kcbobbe.github.io/project1/
+https://kcbobbe.github.io/bandifi/
 
 ## Description
 
